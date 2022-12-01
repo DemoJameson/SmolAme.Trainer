@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
 using BepInEx.Configuration;
 using UnityEngine;
 
@@ -10,14 +11,16 @@ public class TeleportToMouse : PluginComponent {
 
     private void Awake() {
         teleportHotkey = Plugin.Instance.Config.Bind("General", "Teleport To Mouse", new KeyboardShortcut(KeyCode.T));
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
         Camera.onPreRender += PreRender;
     }
 
     private void OnDestroy() {
         Camera.onPreRender -= PreRender;
+    }
+
+    private void Update() {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void PreRender(Camera cam) {
