@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Trainer mod for Smol Ame</Description>
+        <Version>1.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
+        <RootNamespace>SmolAme.Trainer</RootNamespace>
+        <PathMap>$(MSBuildProjectDirectory)=SmolAme.Trainer/</PathMap>
+        <PackageId>SmolAme.Trainer</PackageId>
+        <PackageVersion>1.0.0</PackageVersion>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.*" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+        <PackageReference Include="UnityEngine.Modules" Version="2019.3.0" IncludeAssets="compile" />
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.3.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemDefinitionGroup>
+        <Reference>
+            <Private>False</Private>
+        </Reference>
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp" Publicize="true">
+            <HintPath>Libs\Assembly-CSharp.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Libs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Libs\**" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <BuildsDir>$(SolutionDir)Builds\$(PackageId)_v$(Version)</BuildsDir>
+    </PropertyGroup>
+    
+    <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="xcopy &quot;$(SolutionDir)BepInEx_x86&quot; &quot;$(BuildsDir)\&quot; /E/H/C/I/Y" />
+        <Exec Command="xcopy &quot;$(TargetDir)&quot; &quot;$(BuildsDir)\BepInEx\plugins&quot; /E/H/C/I/Y" />
+        <Exec Command="powershell -Command Compress-Archive -Path '$(BuildsDir)\*' -DestinationPath '$(BuildsDir).zip' -Force" />
+    </Target>
+</Project>
