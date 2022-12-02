@@ -11,7 +11,6 @@ public class HitboxRenderer : MonoBehaviour {
     };
 
     private Dictionary<Collider2D, LineRenderer> colliders = new();
-    private bool inCamera = true;
 
     private void Start() {
         SetupColliders();
@@ -23,13 +22,7 @@ public class HitboxRenderer : MonoBehaviour {
             return;
         }
 
-        if (Camera.main != null) {
-            inCamera = Vector2.Distance(transform.position, Camera.main.transform.position) < 40;
-        }
-
-        if (inCamera) {
-            UpdateColliders();
-        }
+        UpdateColliders();
     }
 
     private Color GetColor(Collider2D collider2D) {
