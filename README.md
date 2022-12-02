@@ -10,7 +10,7 @@ SmolAme.Trainer is a [BepInEx](https://github.com/BepInEx/BepInEx) plugin for pr
 
 ## How to use
 1. [Download](https://github.com/DemoJameson/SmolAme.Trainer/releases) the zip then unzip all files into the game folder.
-2. Run `SmolAme.Trainer` start the game with trainer.
+2. Run `Smol Ame.exe` start the game with trainer.
 3. Run `Smol_Ame_Vanilla.bat` start the game without plugins.
 4. Press `F2` show settings.
 
