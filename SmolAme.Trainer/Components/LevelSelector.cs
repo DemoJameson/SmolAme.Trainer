@@ -13,7 +13,7 @@ public class LevelSelector : PluginComponent {
         [Description("Ame's Office")]
         AmeOffice,
         [Description("Ppo on Rocks")]
-        PpoOnRocks,
+        PopOnRocks,
         RedHeart,
         Pekoland,
         [Description("Ame's Office REVERSED")]
