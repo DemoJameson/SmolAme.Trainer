@@ -13,6 +13,10 @@ public class CameraZoom : PluginComponent {
     private static float zoom = 1f;
 
     private void PreCull(Camera cam) {
+        if (cam != Camera.main) {
+            return;
+        }
+
         if (Math.Abs(zoom) > 0.01f) {
             Vector3 position = cam.transform.position;
             origPosition = position;
@@ -21,6 +25,10 @@ public class CameraZoom : PluginComponent {
     }
 
     private void PostRender(Camera cam) {
+        if (cam != Camera.main) {
+            return;
+        }
+
         if (origPosition.HasValue) {
             cam.transform.position = origPosition.Value;
             origPosition = null;
